@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Vidly.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<VidlyContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("VidlyContext") ?? throw new InvalidOperationException("Connection string 'VidlyContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
