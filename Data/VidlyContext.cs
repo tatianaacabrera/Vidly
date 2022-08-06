@@ -17,5 +17,9 @@ namespace Vidly.Data
         public DbSet<Vidly.Models.Customer> Customer { get; set; } = default!;
 
         public DbSet<Vidly.Models.Movie>? Movie { get; set; }
+        public DbSet<Vidly.Models.MembershipType>? MembershipType { get; set; }
+        public DbSet<Vidly.Models.Genre>? Genre { get; set; }
+
+
     }
 }

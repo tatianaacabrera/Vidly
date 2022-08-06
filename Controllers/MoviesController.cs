@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Data;
-using Vidly.Models;
+using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
@@ -41,6 +36,35 @@ namespace Vidly.Controllers
             return View(movie);
 
         }
+
+        public ViewResult New()
+        {
+            var genres = _context.Genre.ToList();
+
+            var viewModel = new MovieFormViewModel
+            {
+                Genres = genres
+            };
+
+            return View("MovieForm", viewModel);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = _context.Movie.SingleOrDefault(c => c.Id == id);
+
+            if (movie == null)
+                return NotFound();
+
+            var viewModel = new MovieFormViewModel
+            {
+                Movie = movie,
+                Genres = _context.Genre.ToList()
+            };
+
+            return View("MovieForm", viewModel);
+        }
+
 
         //private IEnumerable<Movie> GetMovies()
         //{
