@@ -9,8 +9,8 @@
 @using (Html.BeginForm("Save", "Movies"))
 {
     <div class="form-group">
-        @Html.LabelFor(m => m.Movie.Title)
-        @Html.TextBoxFor(m => m.Movie.Title, new { @class = "form-control" })
+        @Html.LabelFor(m => m.Movie.Name)
+        @Html.TextBoxFor(m => m.Movie.Name, new { @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Movie.ReleaseDate)
