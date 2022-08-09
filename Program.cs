@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddAutoMapper(typeof(CustomerProfile));
+builder.Services.AddAutoMapper(typeof(VidlyProfile));
 
 var app = builder.Build();
 

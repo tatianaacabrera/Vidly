@@ -39,43 +39,41 @@ namespace Vidly.Controllers.Api
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public ActionResult GetCustomer(int id)
         {
-            if (_context.Customer == null)
-            {
-                return NotFound();
-            }
-            var customer = await _context.Customer.FindAsync(id);
+            var customer = _context.Customer.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
             {
                 return NotFound();
             }
 
-            return customer;
+            return Ok(_mapper.Map<CustomerDto>(customer));
         }
 
         // PUT: api/Customers/5
         [HttpPut("{id}")]
-        public void UpdateCustomer(int id, CustomerDto customerDto)
+        public ActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new System.Web.Http.HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var customerInDb = _context.Customer.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)
-                throw new System.Web.Http.HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             _mapper.Map(customerDto, customerInDb);
 
             _context.SaveChanges();
+
+            return Ok();
         }
 
 
         // POST: api/Customers
         [HttpPost]
-        public async Task<ActionResult<Customer>> CreateCustomer(CustomerDto customerDto)
+        public ActionResult CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -83,22 +81,24 @@ namespace Vidly.Controllers.Api
             var customer = _mapper.Map<Customer>(customerDto);
 
             _context.Customer.Add(customer);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
         }
 
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public void DeleteCustomer(int id)
+        public ActionResult DeleteCustomer(int id)
         {
             var customerInDb = _context.Customer.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)
-                throw new System.Web.Http.HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             _context.Customer.Remove(customerInDb);
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
